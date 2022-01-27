@@ -2,20 +2,20 @@ package frc.robot.actors;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.data.PortMap;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 
 //This class handles all drive control actions
 
 public class DriveControl
 {
-    private final SpeedController motor_frontLeft;
-    private final SpeedController motor_rearLeft;
-    private final SpeedController motor_frontRight;
-    private final SpeedController motor_rearRight;
-    private final SpeedControllerGroup motorGroup_left;
-    private final SpeedControllerGroup motorGroup_right;
+    private final MotorController motor_frontLeft;
+    private final MotorController motor_rearLeft;
+    private final MotorController motor_frontRight;
+    private final MotorController motor_rearRight;
+    private final MotorControllerGroup motorGroup_left;
+    private final MotorControllerGroup motorGroup_right;
     private final DifferentialDrive robotDrive;
 
     public DriveControl()
@@ -24,8 +24,8 @@ public class DriveControl
         motor_rearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
         motor_frontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
-        motorGroup_left = new SpeedControllerGroup(motor_frontLeft, motor_rearLeft);
-        motorGroup_right = new SpeedControllerGroup(motor_frontRight, motor_rearRight);
+        motorGroup_left = new MotorControllerGroup(motor_frontLeft, motor_rearLeft);
+        motorGroup_right = new MotorControllerGroup(motor_frontRight, motor_rearRight);
         robotDrive = new DifferentialDrive(motorGroup_left, motorGroup_right);
     }
 

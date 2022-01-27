@@ -49,4 +49,10 @@ public class TeleopControl
 
         this.driveControl.tankDrive(leftInput, rightInput); //EXECUTiON LINE
     }
+    public void mecanumDrive()
+    {
+        double leftStickX = gamePad.getStick(ButtonMap.STICK_LEFTY);
+        double leftStickY
+    }
+
 }

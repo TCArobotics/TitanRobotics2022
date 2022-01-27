@@ -1,14 +1,14 @@
 package frc.robot.actors;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.data.PortMap;
 
 //This class handles all actions related to the shooter system
 
 public class ShooterControl
 {
-    private final SpeedController motor_shooterMotor;
+    private final MotorController motor_shooterMotor;
     public ShooterControl()
     {
         motor_shooterMotor = new PWMVictorSPX(PortMap.SHOOTER.portNumber);
