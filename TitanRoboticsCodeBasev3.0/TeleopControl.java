@@ -16,7 +16,6 @@ public class TeleopControl
     private final GamePad gamePad;
 
     private boolean isFiring;
-    private double speed = 1;
 
     public TeleopControl()
     {
@@ -31,31 +30,35 @@ public class TeleopControl
     {
         this.driveTrain();
         this.shooter();
+        this.shootAim();
     }
 
     public void shooter() //Controls the shooter--Triggers only ONE execution line
     {
+        
         if(gamePad.getButton(ButtonMap.A))
         {
             this.isFiring = !isFiring;
         }
 
-        this.shooterControl.shoot(1); //EXECUTION LINE
+        this.shooterControl.shoot(isFiring ? 1 : 0);
+    }
+
+    public void shootAim()
+    {
+        if(gamePad.getButton(ButtonMap.Y))
+        {
+            this.shooterControl.shootAim(5,1);
+        }
     }
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line
     {
-        double leftInput = gamePad.getStick(ButtonMap.STICK_LEFTY);
-        double rightInput = gamePad.getStick(ButtonMap.STICK_RIGHTY);
+        double leftStickY = gamePad.getStick(ButtonMap.STICK_LEFTY);
+        double leftStickX = gamePad.getStick(ButtonMap.STICK_LEFTX);
+        double rightStickX = gamePad.getStick(ButtonMap.STICK_RIGHTX);
 
-        this.driveControl.tankDrive(leftInput, rightInput); //EXECUTiON LINE
+        this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX);
     }
-    public void mechanumDrive()
-    {
-        double leftYInput = gamePad.getStick(ButtonMap.STICK_LEFTY);
-        double leftXInput = gamePad.getStick(ButtonMap.STICK_LEFTX);
-        double rightXInput = gamePad.getStick(ButtonMap.STICK_RIGHTX);
-        
-        this.driveControl.mecanumDrive(leftYInput, leftXInput, speed, rightXInput);
-    }
+   
 }

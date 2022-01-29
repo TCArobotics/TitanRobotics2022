@@ -9,9 +9,13 @@ public enum PortMap
     FRONTRIGHT(0),
     REARRIGHT(1),
     TURNTABLE(2),
-    SHOOTER(7),
-    FRONTLEFT(8),
-    REARLEFT(9);
+    SHOOTER(13),
+    FRONTLEFT(3),
+    REARLEFT(2),
+    SHOOTERGROUND(11),
+    SHOOTERMIDDLE(12),
+    SHOOTERGYRO(5);
+    
 
     public int portNumber;
     private PortMap(int _portNumber)
