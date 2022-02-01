@@ -44,13 +44,14 @@ public class TeleopControl
         this.shooterControl.shoot(isFiring ? 1 : 0);
     }
 
-    public void shootAim()
+    public void shootAimOrigional()
     {
         if(gamePad.getButton(ButtonMap.Y))
         {
+            this.shooterControl.shootTime();
             this.shooterControl.shootAim(5,1);
         }
-    }
+    }   
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line
     {

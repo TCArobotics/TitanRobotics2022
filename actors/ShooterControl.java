@@ -14,6 +14,8 @@ public class ShooterControl
     private final MotorController motor_groundShooter;
     private final MotorController motor_middleShooter;
     private final MotorController motor_shooterGyro;
+    private final Timer gyroTime;
+    private double gyroTIMMIE;
     
 
     public ShooterControl()
@@ -22,6 +24,8 @@ public class ShooterControl
         motor_groundShooter = new PWMVictorSPX(PortMap.SHOOTERGROUND.portNumber);
         motor_middleShooter = new PWMVictorSPX(PortMap.SHOOTERMIDDLE.portNumber);
         motor_shooterGyro = new PWMVictorSPX(PortMap.SHOOTERGYRO.portNumber);
+        gyroTime = new Timer();
+        gyroTIMMIE = gyroTime.get();
 
     }
 
@@ -31,11 +35,23 @@ public class ShooterControl
         motor_middleShooter.set(_speed);
         motor_shooterMotor.set(_speed);
     }
-    
-    public void shootAim(double runtime, double _speed)
+    public double shootTime()
     {
-        Timer.reset();
-        motor_shooterGyro.set(_speed);
-        motor_shooterGyro.set(0);
+        gyroTIMMIE = gyroTime.get();
+        return gyroTIMMIE;
+    }
+    
+    public void shootAim(double runtime, double _speed)//Sets up a motor to turn the shooter 
+    {
+
+        if(gyroTime.hasElapsed(runtime + gyroTIMMIE))
+        {
+            motor_shooterGyro.set(0);
+        }
+        else
+        {
+            motor_shooterGyro.set(_speed);
+        }
+        
     }
 }
