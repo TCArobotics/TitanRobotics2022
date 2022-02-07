@@ -34,7 +34,7 @@ public class ShooterControl
     
     public void shootAim(double runtime, double _speed)
     {
-        Timer.reset();
+        Timer.getFPGATimestamp();
         motor_shooterGyro.set(_speed);
         motor_shooterGyro.set(0);
     }
