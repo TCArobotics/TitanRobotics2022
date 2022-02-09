@@ -17,10 +17,10 @@ public enum ButtonMap
     LSTICK(9),
     RSTICK(10),
 
-    STICK_LEFTX(11), //The values 11, 12, 13, and 14 for the sticks are not important. What is important is that each of them are different.
-    STICK_LEFTY(12),
-    STICK_RIGHTX(13),
-    STICK_RIGHTY(14);
+    STICK_LEFTX(-1),
+    STICK_LEFTY(-1),
+    STICK_RIGHTX(-1),
+    STICK_RIGHTY(-1);
 
     public int value;
     private ButtonMap(int _value)

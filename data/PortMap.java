@@ -10,8 +10,8 @@ public enum PortMap
     REARRIGHT(1),
     TURNTABLE(2),
     SHOOTER(13),
-    FRONTLEFT(3),
-    REARLEFT(2),
+    FRONTLEFT(7),
+    REARLEFT(6),
     SHOOTERGROUND(11),
     SHOOTERMIDDLE(12),
     SHOOTERGYRO(5);
