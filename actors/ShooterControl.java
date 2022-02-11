@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.data.PortMap;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.data.ButtonMap;
 
 
 //This class handles all actions related to the shooter system
@@ -13,7 +14,7 @@ public class ShooterControl
     private final MotorController motor_shooterMotor;
     private final MotorController motor_groundShooter;
     private final MotorController motor_middleShooter;
-    private final MotorController motor_shooterGyro;
+    private final MotorController motor_shooterRotation;
     
 
     public ShooterControl()
@@ -21,7 +22,7 @@ public class ShooterControl
         motor_shooterMotor = new PWMVictorSPX(PortMap.SHOOTER.portNumber);
         motor_groundShooter = new PWMVictorSPX(PortMap.SHOOTERGROUND.portNumber);
         motor_middleShooter = new PWMVictorSPX(PortMap.SHOOTERMIDDLE.portNumber);
-        motor_shooterGyro = new PWMVictorSPX(PortMap.SHOOTERGYRO.portNumber);
+        motor_shooterRotation = new PWMVictorSPX(PortMap.SHOOTERROTATION.portNumber);
 
     }
 
@@ -34,8 +35,13 @@ public class ShooterControl
     
     public void shootAim(double runtime, double _speed)
     {
-        Timer.reset();
-        motor_shooterGyro.set(_speed);
-        motor_shooterGyro.set(0);
+        Timer.getFPGATimestamp();
+        motor_shooterRotation.set(_speed);
+        motor_shooterRotation.set(0);
+    }
+
+    public void rotate(double speed)
+    {
+        motor_shooterRotation.set(speed);
     }
 }
