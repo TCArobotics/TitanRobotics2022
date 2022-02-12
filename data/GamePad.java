@@ -53,6 +53,10 @@ public class GamePad
                 return xboxController.getRightX();
             case STICK_RIGHTY:
                 return xboxController.getRightY();
+            case TRIGGER_LEFT:
+                return xboxController.getLeftTriggerAxis();
+            case TRIGGER_RIGHT:
+                return xboxController.getRightTriggerAxis();
             default:
                 return 0;
         }

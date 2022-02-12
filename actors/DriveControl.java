@@ -26,8 +26,8 @@ public class DriveControl
         robotDrive = new MecanumDrive(motor_frontLeft, motor_rearLeft, motor_frontRight, motor_rearRight);
     }
     
-    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation)
+    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double speedMultiplier)
     {	
-        robotDrive.driveCartesian(ySpeed, xSpeed, -zRotation);
+        robotDrive.driveCartesian(ySpeed * speedMultiplier, xSpeed * speedMultiplier, -zRotation * speedMultiplier);
     }
 }
