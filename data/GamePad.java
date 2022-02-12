@@ -11,9 +11,9 @@ public class GamePad
     private XboxController xboxController;
     private HashMap<ButtonMap, Double> buttons;
     private double debouncePeriod = 0.25; //The time before a button is allowed to be pressed again in seconds
-    public GamePad()
+    public GamePad(int portNumber)
     {
-        this.xboxController = new XboxController(PortMap.GAMEPAD.portNumber);
+        this.xboxController = new XboxController(portNumber);
         this.buttons = new HashMap<ButtonMap, Double>();
         init();
     }
@@ -53,6 +53,10 @@ public class GamePad
                 return xboxController.getRightX();
             case STICK_RIGHTY:
                 return xboxController.getRightY();
+            case TRIGGER_LEFT:
+                return xboxController.getLeftTriggerAxis();
+            case TRIGGER_RIGHT:
+                return xboxController.getRightTriggerAxis();
             default:
                 return 0;
         }

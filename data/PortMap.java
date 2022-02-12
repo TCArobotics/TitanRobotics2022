@@ -5,16 +5,17 @@ package frc.robot.data;
 
 public enum PortMap
 {
-    GAMEPAD(0),
-    FRONTRIGHT(0),
-    REARRIGHT(1),
+    GAMEPAD_0(0),
+    GAMEPAD_1(1),
+    FRONTRIGHT(0),//new board port 1
+    REARRIGHT(1),//new board port 0
     TURNTABLE(2),
     SHOOTER(13),
-    FRONTLEFT(3),
-    REARLEFT(2),
+    FRONTLEFT(7), //new board port 3
+    REARLEFT(6), //new board port 2
     SHOOTERGROUND(11),
     SHOOTERMIDDLE(12),
-    SHOOTERGYRO(5);
+    SHOOTERROTATION(2); //new board port 4
     
 
     public int portNumber;
