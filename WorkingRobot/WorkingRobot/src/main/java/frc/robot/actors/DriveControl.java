@@ -13,7 +13,7 @@ public class DriveControl
     private final MotorController motor_rearLeft;
     private final MotorController motor_frontRight;
     private final MotorController motor_rearRight;
-    private final MecanumDrive robotDrive;
+    //private final MecanumDrive robotDrive;
 
     public DriveControl()
     {
@@ -23,12 +23,16 @@ public class DriveControl
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
         motor_frontLeft.setInverted(true);
         motor_rearLeft.setInverted(true);
-        robotDrive = new MecanumDrive(motor_frontLeft, motor_rearLeft, motor_frontRight, motor_rearRight);
+        //robotDrive = new MecanumDrive(motor_frontLeft, motor_rearLeft, motor_frontRight, motor_rearRight);
     }
     
     public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double speedMultiplier)
     {	
-        robotDrive.driveCartesian(ySpeed * speedMultiplier, xSpeed * speedMultiplier, -zRotation * speedMultiplier);
+        //robotDrive.driveCartesian(ySpeed * speedMultiplier, xSpeed * speedMultiplier, -zRotation * speedMultiplier);
+        motor_frontLeft.set(speedMultiplier * (ySpeed - xSpeed - zRotation));
+        motor_frontRight.set(speedMultiplier * (ySpeed - xSpeed + zRotation));
+        motor_rearLeft.set(speedMultiplier * (ySpeed + xSpeed - zRotation));
+        motor_rearRight.set(speedMultiplier * (ySpeed + xSpeed + zRotation));
     }
 
 
