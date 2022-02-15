@@ -50,7 +50,7 @@ public class TeleopControl
 
     public void shooter() //Controls the shooter--Triggers only ONE execution line
     {
-        //Determine if the shooter should be firing and alert the shooterControl
+        // Determine if the shooter should be firing and alert the shooterControl
         if(gamePad_0.getButton(ButtonMap.A))
         {
             this.isFiring = !isFiring;
