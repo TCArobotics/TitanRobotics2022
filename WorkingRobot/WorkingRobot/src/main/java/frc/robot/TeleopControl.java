@@ -24,9 +24,9 @@ public class TeleopControl
     private double speed;
     private boolean isShooterRotationManual;
 
-    public TeleopControl()
+    public TeleopControl(DriveControl driveControl)
     {
-        driveControl = new DriveControl();
+        this.driveControl = driveControl;
         shooterControl = new ShooterControl();
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
@@ -82,6 +82,7 @@ public class TeleopControl
 
         this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, speed);
     }
+
 
     private double rtGoal()
     {

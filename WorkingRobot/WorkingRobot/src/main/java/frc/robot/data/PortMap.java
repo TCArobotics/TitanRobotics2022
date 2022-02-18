@@ -6,14 +6,14 @@ package frc.robot.data;
 public enum PortMap
 {
     GAMEPAD_0(0),
-    CAMERA_SHOOTER(1181),  //first camera at 1181, second at 1182 etc.
+    CAMERA_SHOOTER(0),  //first camera at 1181, second at 1182 etc.
     GAMEPAD_1(1),
-    FRONTRIGHT(1),//new board port 1, old board port 0
-    REARRIGHT(0),//new board port 0, old board port 1
+    FRONTRIGHT(3),//new board port 1, old board port 0, red
+    REARRIGHT(0),//new board port 0, old board port 1, blue/purple
     TURNTABLE(2),
     SHOOTER(13),
-    FRONTLEFT(3), //new board port 3, old board port 7
-    REARLEFT(2), //new board port 2, old board port 6
+    FRONTLEFT(1), //new board port 3, old board port 7, yellow
+    REARLEFT(2), //new board port 2, old board port 6, green
     SHOOTER_GROUND(11),
     SHOOTER_MIDDLE(12),
     SHOOTER_ROTATION(5); 

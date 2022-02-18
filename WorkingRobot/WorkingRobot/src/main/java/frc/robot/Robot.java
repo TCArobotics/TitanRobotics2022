@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.actors.DriveControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  public DriveControl driveControl = new DriveControl();
 
   private TeleopControl teleopControl;
   private AutonomousControl autonomousControl;
@@ -37,8 +39,8 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    teleopControl = new TeleopControl();
-    autonomousControl = new AutonomousControl();
+    teleopControl = new TeleopControl(this.driveControl);
+    autonomousControl = new AutonomousControl(this.driveControl);
   }
 
   /**
@@ -94,6 +96,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleopControl.execute();
+    autonomousControl.execute();
   }
 
   /**
