@@ -1,5 +1,8 @@
 package frc.robot.data;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
+
 //This enum contains all port numbers
 //Reference a port number like so: PortMap.GAMEPAD.portNumber
 
@@ -16,7 +19,8 @@ public enum PortMap
     REARLEFT(6), //new board port 2
     SHOOTER_GROUND(11),
     SHOOTER_MIDDLE(12),
-    SHOOTER_ROTATION(5); 
+    SHOOTER_ROTATION(5),
+    ULTERSONIC(0); 
     
 
     public int portNumber;
