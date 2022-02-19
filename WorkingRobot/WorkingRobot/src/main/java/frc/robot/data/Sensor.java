@@ -7,8 +7,11 @@ import frc.robot.data.Range;
 
 public class Sensor
 {
+    private final Range range;
+
     public Sensor()
     {
-        
+        range = new Range();
+        System.out.println(range.getDistance());
     }
 }

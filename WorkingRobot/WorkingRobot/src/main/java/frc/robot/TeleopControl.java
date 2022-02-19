@@ -7,6 +7,8 @@ import frc.robot.data.GamePad;
 import frc.robot.data.Gyro;
 import frc.robot.data.Map;
 import frc.robot.data.PortMap;
+import frc.robot.data.Sensor;
+import frc.robot.data.Range;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -14,6 +16,7 @@ import frc.robot.data.PortMap;
 
 public class TeleopControl
 {
+    private final Range range;
     private final DriveControl driveControl;
     private final ShooterControl shooterControl;
     private final GamePad gamePad_0;
@@ -26,6 +29,7 @@ public class TeleopControl
 
     public TeleopControl()
     {
+        range = new Range();
         driveControl = new DriveControl();
         shooterControl = new ShooterControl();
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
@@ -46,6 +50,7 @@ public class TeleopControl
         // System.out.println(ahrs.getXPos());
         // System.out.println(ahrs.getYAccel());
         // System.out.println(ahrs.getYpos());
+        System.out.println(range.getDistance());
     }
 
     public void shooter() //Controls the shooter--Triggers only ONE execution line
