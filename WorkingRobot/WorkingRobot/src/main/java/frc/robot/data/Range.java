@@ -1,13 +1,9 @@
 package frc.robot.data;
 
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Range
 {
-  //private final Ultrasonic ultrasonicSensor;
     private AnalogInput m_US;
     public Range ()
     {

@@ -50,7 +50,7 @@ public class TeleopControl
         // System.out.println(ahrs.getXPos());
         // System.out.println(ahrs.getYAccel());
         // System.out.println(ahrs.getYpos());
-        System.out.println(range.getDistance());
+        //System.out.println(range.getDistance());
     }
 
     public void shooter() //Controls the shooter--Triggers only ONE execution line

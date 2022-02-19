@@ -19,9 +19,7 @@ public enum PortMap
     REARLEFT(6), //new board port 2
     SHOOTER_GROUND(11),
     SHOOTER_MIDDLE(12),
-    SHOOTER_ROTATION(5),
-    ULTERSONIC(0); 
-    
+    SHOOTER_ROTATION(5);
 
     public int portNumber;
     private PortMap(int _portNumber)

@@ -12,6 +12,5 @@ public class Sensor
     public Sensor()
     {
         range = new Range();
-        System.out.println(range.getDistance());
     }
 }
