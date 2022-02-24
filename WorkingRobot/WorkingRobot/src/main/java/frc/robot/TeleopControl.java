@@ -37,7 +37,7 @@ public class TeleopControl
         gyro = new Gyro();
         map = new Map(gyro);
         isFiring = false;
-        speed = 1;
+        speed = .5;
         isShooterRotationManual = true;
     }
 
