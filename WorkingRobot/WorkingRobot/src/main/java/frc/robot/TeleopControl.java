@@ -85,7 +85,7 @@ public class TeleopControl
             speed = (speed == 1) ? 0.5 : 1;
         }
 
-        this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, speed);
+        this.driveControl.mecanumDrive(-leftStickY, leftStickX, -rightStickX, speed);
     }
 
     private double rtGoal()

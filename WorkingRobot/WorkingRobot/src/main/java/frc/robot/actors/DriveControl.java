@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 public class DriveControl
 {
-    private final MotorController motor_frontLeft;
-    private final MotorController motor_rearLeft;
-    private final MotorController motor_frontRight;
-    private final MotorController motor_rearRight;
+    private static MotorController motor_frontLeft;
+    private static MotorController motor_rearLeft;
+    private static MotorController motor_frontRight;
+    private static MotorController motor_rearRight;
+    private static double weightMultiplier;
     //private final MecanumDrive robotDrive;
 
     public DriveControl()
@@ -21,19 +22,23 @@ public class DriveControl
         motor_rearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
         motor_frontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
-        motor_frontLeft.setInverted(true);
-        motor_rearLeft.setInverted(true);
+        motor_frontRight.setInverted(true);
+        motor_rearRight.setInverted(true);
+        weightMultiplier = 1.1;
         //robotDrive = new MecanumDrive(motor_frontLeft, motor_rearLeft, motor_frontRight, motor_rearRight);
     }
     
-    public void mecanumDrive(double ySpeed, double xSpeed, double zRotation, double speedMultiplier)
+    public static void mecanumDrive(double forwardSpeed, double sideSpeed, double zRotation, double speedMultiplier)
     {	
-        //robotDrive.driveCartesian(ySpeed * speedMultiplier, xSpeed * speedMultiplier, -zRotation * speedMultiplier);
-        motor_frontLeft.set(speedMultiplier * (ySpeed - xSpeed - zRotation));
-        motor_frontRight.set(speedMultiplier * (ySpeed + xSpeed + zRotation));
-        motor_rearLeft.set(speedMultiplier * (ySpeed + xSpeed - zRotation));
-        motor_rearRight.set(speedMultiplier * (ySpeed - xSpeed + zRotation));
+        //robotDrive.driveCartesian(forwardSpeed * speedMultiplier, sideSpeed * speedMultiplier, -zRotation * speedMultiplier);
+        motor_frontLeft.set(speedMultiplier * (forwardSpeed + sideSpeed * weightMultiplier - zRotation));
+        motor_frontRight.set(speedMultiplier * (forwardSpeed - sideSpeed * weightMultiplier + zRotation));
+        motor_rearLeft.set(speedMultiplier * (forwardSpeed - sideSpeed / weightMultiplier - zRotation));
+        motor_rearRight.set(speedMultiplier * (forwardSpeed + sideSpeed / weightMultiplier + zRotation));
     }
-
+    public static void stop()
+    {
+        mecanumDrive(0, 0, 0, 0);
+    }
 
 }
