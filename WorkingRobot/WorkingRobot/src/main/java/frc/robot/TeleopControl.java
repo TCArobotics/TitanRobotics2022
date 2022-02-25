@@ -9,6 +9,7 @@ import frc.robot.data.Map;
 import frc.robot.data.PortMap;
 import frc.robot.data.Sensor;
 import frc.robot.data.Range;
+import java.lang.Math;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -83,9 +84,10 @@ public class TeleopControl
         if(gamePad_0.getButton(ButtonMap.LB))
         {
             speed = (speed == 1) ? 0.5 : 1;
+            System.out.println(speed);
         }
 
-        this.driveControl.mecanumDrive(-leftStickY, leftStickX, -rightStickX, speed);
+        this.driveControl.mecanumDrive(-leftStickY * Math.abs(leftStickY), leftStickX * Math.abs(leftStickX), -rightStickX * Math.abs(rightStickX), speed);
     }
 
     private double rtGoal()

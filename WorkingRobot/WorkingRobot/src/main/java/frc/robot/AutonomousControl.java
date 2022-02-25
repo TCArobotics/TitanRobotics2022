@@ -23,7 +23,7 @@ public class AutonomousControl
         //System.out.println(Timer.getFPGATimestamp() - startingTime);
         if(Timer.getFPGATimestamp() - startingTime < 2.5)
         {
-            DriveControl.mecanumDrive(0, 1, 0, .25);
+            DriveControl.mecanumDrive(-1, 0, 0, .25);
         }
         else
         {
