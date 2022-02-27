@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.actors.DriveControl;
 

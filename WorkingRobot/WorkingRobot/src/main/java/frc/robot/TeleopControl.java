@@ -5,7 +5,6 @@ import frc.robot.actors.ShooterControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
 import frc.robot.data.Gyro;
-import frc.robot.data.Map;
 import frc.robot.data.PortMap;
 import frc.robot.data.Sensor;
 import frc.robot.data.Range;
@@ -18,27 +17,27 @@ import java.lang.Math;
 public class TeleopControl
 {
     private final Range range;
-    private final DriveControl driveControl;
     private final ShooterControl shooterControl;
+    private final DriveControl driveControl;
     private final GamePad gamePad_0;
     private final GamePad gamePad_1;
     private final Gyro gyro;
-    private final Map map;
     private boolean isFiring;
+    private boolean isEmergencyStopped;
     private double speed;
     private boolean isShooterRotationManual;
 
     public TeleopControl()
     {
         range = new Range();
-        driveControl = new DriveControl();
         shooterControl = new ShooterControl();
+        driveControl = new DriveControl();
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
         gyro = new Gyro();
-        map = new Map(gyro);
         isFiring = false;
         speed = .5;
+        isEmergencyStopped = false;
         isShooterRotationManual = true;
     }
 
@@ -46,28 +45,36 @@ public class TeleopControl
     {
         this.driveTrain();
         this.shooter();
-        // System.out.println(ahrs.getYaw());
-        // System.out.println(ahrs.getXAccel());
-        // System.out.println(ahrs.getXPos());
-        // System.out.println(ahrs.getYAccel());
-        // System.out.println(ahrs.getYpos());
-        //System.out.println(range.getDistance());
     }
+
+    /*
+    Gamepad_0 Controls:
+    Left stick x axis: left/right movement (right positive)
+    Left stick y axis: forward/backward movement (back positive)
+    Right stick x axis: left/right turning (right positive)
+    Left bumper: toggle between x1 and x0.5 speed
+    Start: emergency stop drive train and shooter
+
+    Gamepad_1 Controls:
+    A button: toggle firing
+    Y button: toggle manual/automatic shooter rotation
+    Start: emergency stop drive train and shooter
+    */
 
     public void shooter() //Controls the shooter--Triggers only ONE execution line
     {
         // Determine if the shooter should be firing and alert the shooterControl
-        if(gamePad_0.getButton(ButtonMap.A))
+        if(gamePad_1.getButton(ButtonMap.A))
         {
             this.isFiring = !isFiring;
         }
         this.shooterControl.shoot(isFiring ? 1 : 0);
 
 
-        isShooterRotationManual = gamePad_0.getButton(ButtonMap.Y) ? !isShooterRotationManual : isShooterRotationManual;
+        isShooterRotationManual = gamePad_1.getButton(ButtonMap.Y) ? !isShooterRotationManual : isShooterRotationManual;
         if(isShooterRotationManual)
         {
-            this.shooterControl.rotateManual(gamePad_0.getStick(ButtonMap.TRIGGER_LEFT) - gamePad_0.getStick(ButtonMap.TRIGGER_RIGHT));
+            this.shooterControl.rotateManual(gamePad_1.getStick(ButtonMap.TRIGGER_LEFT) - gamePad_1.getStick(ButtonMap.TRIGGER_RIGHT));
         }
         else
         {
@@ -85,6 +92,13 @@ public class TeleopControl
         {
             speed = (speed == 1) ? 0.5 : 1;
             System.out.println(speed);
+        }
+
+        isEmergencyStopped = (gamePad_0.getButton(ButtonMap.START) || gamePad_1.getButton(ButtonMap.START)) ? !isEmergencyStopped : isEmergencyStopped;
+        if(isEmergencyStopped)
+        {
+            this.driveControl.stop();
+            this.shooterControl.stop();
         }
 
         this.driveControl.mecanumDrive(-leftStickY * Math.abs(leftStickY), leftStickX * Math.abs(leftStickX), -rightStickX * Math.abs(rightStickX), speed);

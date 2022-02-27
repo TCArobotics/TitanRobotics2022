@@ -3,8 +3,6 @@ package frc.robot.actors;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.data.PortMap;
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.data.ButtonMap;
 import frc.robot.data.Camera;
 import java.lang.Math;
 
@@ -13,11 +11,11 @@ import java.lang.Math;
 
 public class ShooterControl
 {
-    private final MotorController motor_shooterMotor;
-    private final MotorController motor_groundShooter;
-    private final MotorController motor_middleShooter;
-    private final MotorController motor_shooterRotation;
-    private final Camera cameraShooter;
+    private static MotorController motor_shooterMotor;
+    private static MotorController motor_groundShooter;
+    private static MotorController motor_middleShooter;
+    private static MotorController motor_shooterRotation;
+    private static Camera cameraShooter;
     
 
     public ShooterControl()
@@ -29,19 +27,27 @@ public class ShooterControl
         cameraShooter = new Camera(PortMap.CAMERA_SHOOTER.portNumber);
     }
 
-    public void shoot(double _speed) //Turns the shooter motor with given speed
+    public static void shoot(double _speed) //Turns the shooter motor with given speed
     {
         motor_groundShooter.set(_speed);
         motor_middleShooter.set(_speed);
         motor_shooterMotor.set(_speed);
     }
+
+    public static void stop()
+    {
+        motor_groundShooter.set(0);
+        motor_middleShooter.set(0);
+        motor_shooterMotor.set(0);
+        motor_shooterRotation.set(0);
+    }
     
-    public void rotateManual(double _speed)
+    public static void rotateManual(double _speed)
     {
         motor_shooterRotation.set(_speed);
     }
 
-    public void rotateLockOn()
+    public static void rotateLockOn()
     {
         if (cameraShooter.isGoalVisible())
         {
