@@ -15,6 +15,7 @@ public class Camera
         server = CameraServer.getServer();
         server.setSource(camera);
         camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        
     }
     public double getGoalYLocation()
     {
