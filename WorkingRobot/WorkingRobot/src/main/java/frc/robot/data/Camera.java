@@ -11,7 +11,7 @@ public class Camera
     private VideoSink server;
     public Camera (int _portNumber) 
     {
-        camera = CameraServer.startAutomaticCapture(_portNumber);
+        camera = CameraServer.startAutomaticCapture();
         server = CameraServer.getServer();
         server.setSource(camera);
         camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
