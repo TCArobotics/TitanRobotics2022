@@ -1,4 +1,4 @@
-package visioncode;
+package frc.robot.data;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
-import org.opencv.features2d.FeatureDetector;
+import org.opencv.features2d.FastFeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
@@ -25,7 +23,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class GripPipeline implements VisionPipeline {
+public class GripPipeline {
 
 	//Outputs
 	private Mat blurOutput = new Mat();
@@ -40,7 +38,7 @@ public class GripPipeline implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	public void process(Mat source0) {
 		// Step Blur0:
 		Mat blurInput = source0;
 		BlurType blurType = BlurType.get("Box Blur");
@@ -49,9 +47,9 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step HSL_Threshold0:
 		Mat hslThresholdInput = blurOutput;
-		double[] hslThresholdHue = {82.55395683453239, 93.99317406143346};
-		double[] hslThresholdSaturation = {174.28057553956833, 255.0};
-		double[] hslThresholdLuminance = {105.48561151079136, 255.0};
+		double[] hslThresholdHue = {38.848920863309374, 104.74402730375428};
+		double[] hslThresholdSaturation = {142.1762589928057, 255.0};
+		double[] hslThresholdLuminance = {71.08812949640287, 222.36348122866895};
 		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 
 		// Step Find_Contours0:
@@ -61,17 +59,17 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 0.0;
-		double filterContoursMinPerimeter = 0;
-		double filterContoursMinWidth = 0;
-		double filterContoursMaxWidth = 1000;
-		double filterContoursMinHeight = 0;
-		double filterContoursMaxHeight = 1000;
-		double[] filterContoursSolidity = {0, 100};
-		double filterContoursMaxVertices = 1000000;
-		double filterContoursMinVertices = 0;
-		double filterContoursMinRatio = 0;
-		double filterContoursMaxRatio = 1000;
+		double filterContoursMinArea = 5.0;
+		double filterContoursMinPerimeter = 5.0;
+		double filterContoursMinWidth = 2.0;
+		double filterContoursMaxWidth = 1000.0;
+		double filterContoursMinHeight = 2.0;
+		double filterContoursMaxHeight = 1000.0;
+		double[] filterContoursSolidity = {12.589928057553957, 100};
+		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMinVertices = 3.0;
+		double filterContoursMinRatio = 0.0;
+		double filterContoursMaxRatio = 1000.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}

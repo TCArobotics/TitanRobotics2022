@@ -9,6 +9,7 @@ import frc.robot.data.Map;
 import frc.robot.data.PortMap;
 import frc.robot.data.Sensor;
 import frc.robot.data.Range;
+import frc.robot.data.GripPipeline;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -43,6 +44,7 @@ public class TeleopControl
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
+        GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain();
         this.shooter();
         // System.out.println(ahrs.getYaw());
@@ -60,7 +62,7 @@ public class TeleopControl
         {
             this.isFiring = !isFiring;
         }
-        this.shooterControl.shoot(isFiring ? 1 : 0);
+        this.shooterControl.shoot(isFiring ? -2 : 0);
 
 
         isShooterRotationManual = gamePad_0.getButton(ButtonMap.Y) ? !isShooterRotationManual : isShooterRotationManual;

@@ -3,6 +3,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import frc.robot.data.GripPipeline;
 
 /** Add your docs here. */
 public class Camera
@@ -19,6 +20,7 @@ public class Camera
     }
     public double getGoalYLocation()
     {
+        
         //placeholder code
         return -1;
     }
