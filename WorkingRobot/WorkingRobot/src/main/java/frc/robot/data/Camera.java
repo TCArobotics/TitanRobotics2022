@@ -12,6 +12,8 @@ public class Camera
     private VideoSink server;
     public Camera (int _portNumber) 
     {
+        CameraServer.addAxisCamera("primary","10.83.34.61");
+        CameraServer.getVideo("primary");
         camera = CameraServer.startAutomaticCapture();
         server = CameraServer.getServer();
         server.setSource(camera);
