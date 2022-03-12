@@ -5,7 +5,6 @@ import frc.robot.actors.ShooterControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
 import frc.robot.data.Gyro;
-import frc.robot.data.Map;
 import frc.robot.data.PortMap;
 import frc.robot.data.Sensor;
 import frc.robot.data.Range;
@@ -23,10 +22,9 @@ public class TeleopControl
     private final GamePad gamePad_0;
     private final GamePad gamePad_1;
     private final Gyro gyro;
-    private final Map map;
-    private boolean isFiring;
-    private double speed;
-    private boolean isShooterRotationManual;
+    private boolean isIntaking;
+    private double drivingSpeed;
+    private double shooterSpeed;
 
     public TeleopControl()
     {
@@ -36,17 +34,16 @@ public class TeleopControl
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
         gyro = new Gyro();
-        map = new Map(gyro);
-        isFiring = false;
-        speed = .5;
-        isShooterRotationManual = true;
+        isIntaking = false;
+        drivingSpeed = .5;
+        shooterSpeed = 1;
     }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
-        GripPipeline.process(); //Use CameraServer to create Matrix input
-        this.driveTrain();
-        this.shooter();
+        //GripPipeline.process(); //Use CameraServer to create Matrix input
+        this.driveTrain(gamePad_0);
+        this.shooter(gamePad_0);
         // System.out.println(ahrs.getYaw());
         // System.out.println(ahrs.getXAccel());
         // System.out.println(ahrs.getXPos());
@@ -55,39 +52,34 @@ public class TeleopControl
         //System.out.println(range.getDistance());
     }
 
-    public void shooter() //Controls the shooter--Triggers only ONE execution line
+    public void shooter(GamePad _gamePad) //Controls the shooter--Triggers only ONE execution line
     {
         // Determine if the shooter should be firing and alert the shooterControl
-        if(gamePad_0.getButton(ButtonMap.A))
+        if(_gamePad.getButton(ButtonMap.A))
         {
-            this.isFiring = !isFiring;
+            this.isIntaking = !isIntaking;
         }
-        this.shooterControl.shoot(isFiring ? -2 : 0);
-
-
-        isShooterRotationManual = gamePad_0.getButton(ButtonMap.Y) ? !isShooterRotationManual : isShooterRotationManual;
-        if(isShooterRotationManual)
+        if(_gamePad.getButton(ButtonMap.LB))
         {
-            this.shooterControl.rotateManual(gamePad_0.getStick(ButtonMap.TRIGGER_LEFT) - gamePad_0.getStick(ButtonMap.TRIGGER_RIGHT));
+            shooterSpeed = (shooterSpeed == 1) ? 0.5 : 1;
         }
-        else
-        {
-            this.shooterControl.rotateLockOn();
-        }
+        double leftStickY = _gamePad.getStick(ButtonMap.STICK_LEFTY);
+        double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
+        this.shooterControl.shoot(leftStickX, leftStickY, shooterSpeed);
     }
 
-    public void driveTrain() //Controls the drive train--triggers only ONE execution line
+    public void driveTrain(GamePad _gamePad) //Controls the drive train--triggers only ONE execution line
     {
-        double leftStickY = gamePad_0.getStick(ButtonMap.STICK_LEFTY);
-        double leftStickX = gamePad_0.getStick(ButtonMap.STICK_LEFTX);
-        double rightStickX = gamePad_0.getStick(ButtonMap.STICK_RIGHTX);
+        double leftStickY = _gamePad.getStick(ButtonMap.STICK_LEFTY);
+        double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
+        double rightStickX = _gamePad.getStick(ButtonMap.STICK_RIGHTX);
 
-        if(gamePad_0.getButton(ButtonMap.LB))
+        if(_gamePad.getButton(ButtonMap.LB))
         {
-            speed = (speed == 1) ? 0.5 : 1;
+            drivingSpeed = (drivingSpeed == 1) ? 0.5 : 1;
         }
 
-        this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, speed);
+        this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, drivingSpeed);
     }
 
     private double rtGoal()
