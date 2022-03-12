@@ -3,39 +3,40 @@ package frc.robot.actors;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.data.PortMap;
-import edu.wpi.first.wpilibj.Timer;
 
 
 //This class handles all actions related to the shooter system
 
 public class ShooterControl
 {
-    private final MotorController motor_shooterMotor;
-    private final MotorController motor_groundShooter;
-    private final MotorController motor_middleShooter;
-    private final MotorController motor_shooterGyro;
+    private final MotorController motor_shooterMotorIntake;
+    private final MotorController motor_shooterMotorLeft;
+    private final MotorController motor_shooterMotorRight;
+    private final MotorController motor_shooterMotorFront;
+    private final MotorController motor_shooterMotorBack;
     
 
     public ShooterControl()
     {
-        motor_shooterMotor = new PWMVictorSPX(PortMap.SHOOTER.portNumber);
-        motor_groundShooter = new PWMVictorSPX(PortMap.SHOOTERGROUND.portNumber);
-        motor_middleShooter = new PWMVictorSPX(PortMap.SHOOTERMIDDLE.portNumber);
-        motor_shooterGyro = new PWMVictorSPX(PortMap.SHOOTERGYRO.portNumber);
-
+        motor_shooterMotorLeft = new PWMVictorSPX(PortMap.SHOOTER_LEFT.portNumber);
+        motor_shooterMotorRight = new PWMVictorSPX(PortMap.SHOOTER_RIGHT.portNumber);
+        motor_shooterMotorFront = new PWMVictorSPX(PortMap.SHOOTER_FRONT.portNumber);
+        motor_shooterMotorBack = new PWMVictorSPX(PortMap.SHOOTER_BACK.portNumber);
+        motor_shooterMotorIntake = new PWMVictorSPX(PortMap.SHOOTER_INTAKE.portNumber);
+        motor_shooterMotorBack.setInverted(true);
+        motor_shooterMotorRight.setInverted(true);
     }
 
-    public void shoot(double _speed) //Turns the shooter motor with given speed
+    public void intake(double _speed)
     {
-        motor_groundShooter.set(_speed);
-        motor_middleShooter.set(_speed);
-        motor_shooterMotor.set(_speed);
+        motor_shooterMotorIntake.set(-_speed);
     }
     
-    public void shootAim(double runtime, double _speed)
+    public void shoot(double _leftStickX, double _leftStickY, double _speed) //0 = forward, counterclockwise positive
     {
-        Timer.reset();
-        motor_shooterGyro.set(_speed);
-        motor_shooterGyro.set(0);
+        motor_shooterMotorFront.set((_leftStickY > 0) ? _leftStickY * _speed : 0);
+        motor_shooterMotorLeft.set((_leftStickX < 0) ? _leftStickX * _speed : 0);
+        motor_shooterMotorBack.set((_leftStickY < 0) ? _leftStickY * _speed : 0);
+        motor_shooterMotorRight.set((_leftStickX > 0) ? _leftStickX * _speed : 0);
     }
 }
