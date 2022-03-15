@@ -23,7 +23,8 @@ public class ShooterControl
         motor_shooterMotorFront = new PWMVictorSPX(PortMap.SHOOTER_FRONT.portNumber);
         motor_shooterMotorBack = new PWMVictorSPX(PortMap.SHOOTER_BACK.portNumber);
         motor_shooterMotorIntake = new PWMVictorSPX(PortMap.SHOOTER_INTAKE.portNumber);
-        motor_shooterMotorRight.setInverted(true);
+        motor_shooterMotorFront.setInverted(true);
+        motor_shooterMotorLeft.setInverted(true);
     }
 
     public void intake(double _speed)
@@ -31,11 +32,11 @@ public class ShooterControl
         motor_shooterMotorIntake.set(-_speed);
     }
     
-    public void shoot(double _speed)
+    public void shoot(double _leftStickX, double _leftStickY, double _speed) //0 = forward, counterclockwise positive
     {
-            motor_shooterMotorBack.set(_speed);
-            motor_shooterMotorLeft.set(_speed);
-            motor_shooterMotorFront.set(_speed);
-            motor_shooterMotorRight.set(_speed);
+        motor_shooterMotorFront.set((_leftStickY > 0) ? _leftStickY * _speed : 0);
+        motor_shooterMotorLeft.set((_leftStickX < 0) ? _leftStickX * _speed : 0);
+        motor_shooterMotorBack.set((_leftStickY < 0) ? _leftStickY * _speed : 0);
+        motor_shooterMotorRight.set((_leftStickX > 0) ? _leftStickX * _speed : 0);
     }
 }

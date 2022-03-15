@@ -6,20 +6,20 @@ package frc.robot.data;
 
 public enum ButtonMap
 {
-    A(1), //Toggle intake
-    B(2), //Activate shooter
+    A(1),
+    B(2),
     X(3),
     Y(4),
-    LB(5), //Change speed for shooter and driver controllers respectively
+    LB(5),
     RB(6),
     BACK(7),
     START(8),
     LSTICK(9),
     RSTICK(10),
 
-    STICK_LEFTX(-1), //Strafe
-    STICK_LEFTY(-1), //Forward/backward
-    STICK_RIGHTX(-1), //turn
+    STICK_LEFTX(-1),
+    STICK_LEFTY(-1),
+    STICK_RIGHTX(-1),
     STICK_RIGHTY(-1),
     TRIGGER_LEFT(-1),
     TRIGGER_RIGHT(-1);

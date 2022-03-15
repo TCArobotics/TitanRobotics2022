@@ -23,9 +23,8 @@ public class TeleopControl
     private final GamePad gamePad_1;
     private final Gyro gyro;
     private boolean isIntaking;
-    private boolean isShooting;
     private double drivingSpeed;
-    private double shootingSpeed;
+    private double shooterSpeed;
 
     public TeleopControl()
     {
@@ -36,16 +35,15 @@ public class TeleopControl
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
         gyro = new Gyro();
         isIntaking = false;
-        isShooting = false;
         drivingSpeed = .5;
-        shootingSpeed = 1;
+        shooterSpeed = 1;
     }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         //GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain(gamePad_0);
-        this.shooter(gamePad_1);
+        this.shooter(gamePad_0);
         // System.out.println(ahrs.getYaw());
         // System.out.println(ahrs.getXAccel());
         // System.out.println(ahrs.getXPos());
@@ -61,16 +59,13 @@ public class TeleopControl
         {
             this.isIntaking = !isIntaking;
         }
-        if(_gamePad.getButton(ButtonMap.B))
-        {
-            this.isShooting = !isShooting;
-        }
         if(_gamePad.getButton(ButtonMap.LB))
         {
-            shootingSpeed = (shootingSpeed == 1) ? 0.5 : 1;
+            shooterSpeed = (shooterSpeed == 1) ? 0.5 : 1;
         }
-        this.shooterControl.shoot(isShooting ? shootingSpeed : 0);
-        this.shooterControl.intake(isIntaking ? 30 : 0);
+        double leftStickY = _gamePad.getStick(ButtonMap.STICK_LEFTY);
+        double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
+        this.shooterControl.shoot(leftStickX, leftStickY, shooterSpeed);
     }
 
     public void driveTrain(GamePad _gamePad) //Controls the drive train--triggers only ONE execution line
@@ -85,5 +80,10 @@ public class TeleopControl
         }
 
         this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, drivingSpeed);
+    }
+
+    private double rtGoal()
+    {
+        return 5;
     }
 }
