@@ -9,6 +9,7 @@ import frc.robot.data.PortMap;
 import frc.robot.data.Sensor;
 import frc.robot.data.Range;
 import frc.robot.data.GripPipeline;
+import frc.robot.data.SensorColor;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -22,6 +23,7 @@ public class TeleopControl
     private final GamePad gamePad_0;
     private final GamePad gamePad_1;
     private final Gyro gyro;
+    private final SensorColor sensorColor;
     private boolean isIntaking;
     private double drivingSpeed;
     private double shooterSpeed;
@@ -31,6 +33,7 @@ public class TeleopControl
         range = new Range();
         driveControl = new DriveControl();
         shooterControl = new ShooterControl();
+        sensorColor = new SensorColor();
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
         gyro = new Gyro();
@@ -44,6 +47,7 @@ public class TeleopControl
         //GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain(gamePad_0);
         this.shooter(gamePad_0);
+        sensorColor.cheese();
         // System.out.println(ahrs.getYaw());
         // System.out.println(ahrs.getXAccel());
         // System.out.println(ahrs.getXPos());
