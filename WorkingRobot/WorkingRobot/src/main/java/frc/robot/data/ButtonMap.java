@@ -8,8 +8,8 @@ public enum ButtonMap
 {
     A(1), //Toggle intake
     B(2), //Activate shooter
-    X(3),
-    Y(4),
+    X(3), //Extend climber
+    Y(4), //Retract climber
     LB(5), //Change speed for shooter and driver controllers respectively
     RB(6),
     BACK(7),
