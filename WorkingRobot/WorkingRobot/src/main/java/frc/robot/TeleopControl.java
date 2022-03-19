@@ -13,6 +13,7 @@ import frc.robot.data.Sensor;
 import frc.robot.data.Range;
 import frc.robot.data.GripPipeline;
 import frc.robot.data.Camera;
+import frc.robot.data.SensorColor;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -29,6 +30,7 @@ public class TeleopControl
     private final Camera visionCam;
     //private final UsbCamera driverCam;
     //private final VideoSink driverCamServer;
+    private final SensorColor sensorColor;
     private boolean isIntaking;
     private boolean isShooting;
     private int isExtendingDirection;
@@ -41,6 +43,7 @@ public class TeleopControl
         range = new Range();
         driveControl = new DriveControl();
         shooterControl = new ShooterControl();
+        sensorColor = new SensorColor();
         //driverCam = CameraServer.startAutomaticCapture(1);
         //driverCamServer = CameraServer.getServer();
         //driverCamServer.setSource(driverCam);
@@ -61,6 +64,7 @@ public class TeleopControl
         //GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain(gamePad_0);
         this.shooter(gamePad_1);
+        sensorColor.cheese();
         //visionCam.processCamera();
         //visionCam.getGoalDistance();
     }
