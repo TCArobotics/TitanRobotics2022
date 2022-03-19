@@ -23,7 +23,7 @@ public void initiate() {
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);  
 }
-public void cheese() {
+public void getColor() {
     Color detectedColor = m_colorSensor.getColor();
 
     /**

@@ -4,7 +4,7 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import frc.robot.data.GripPipeline;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.AxisCamera;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -15,20 +15,20 @@ import org.opencv.core.Rect;
 /** Add your docs here. */
 public class Camera
 {
-    private UsbCamera camera;
+    private AxisCamera camera;
     private CvSink cvSink;
     private CvSource outputStream;
     private GripPipeline gripPipeline;
     private Rect rect;
     Mat source;
     Mat output;
-    public Camera (int _portNumber) 
+    public Camera (String _name, String _host, int _xRes, int _yRes) 
     {
-        camera = CameraServer.startAutomaticCapture(_portNumber);
-        camera.setResolution(800,600);
+        camera = CameraServer.addAxisCamera(_name, _host);
+        camera.setResolution(_xRes, _yRes);
         camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         cvSink = CameraServer.getVideo();
-        outputStream = CameraServer.putVideo("VisionCamera", 800, 600);
+        outputStream = CameraServer.putVideo(_name, _xRes, _yRes);
         gripPipeline = new GripPipeline();
         source = new Mat();
         output = new Mat();

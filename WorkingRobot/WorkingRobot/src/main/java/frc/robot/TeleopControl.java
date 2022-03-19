@@ -31,7 +31,7 @@ public class TeleopControl
     //private final UsbCamera driverCam;
     //private final VideoSink driverCamServer;
     private final SensorColor sensorColor;
-    private boolean isIntaking;
+    private int isIntakingDirection;
     private boolean isShooting;
     private int isExtendingDirection;
     private double drivingSpeed;
@@ -47,11 +47,11 @@ public class TeleopControl
         //driverCam = CameraServer.startAutomaticCapture(1);
         //driverCamServer = CameraServer.getServer();
         //driverCamServer.setSource(driverCam);
-        visionCam = new Camera(0);
+        visionCam = new Camera("VisionCamera", "10.83.34.61", 400, 300);
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
         gyro = new Gyro();
-        isIntaking = false;
+        isIntakingDirection = 0;
         isShooting = false;
         isExtendingDirection = 0;
         drivingSpeed = .5;
@@ -64,7 +64,7 @@ public class TeleopControl
         //GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain(gamePad_0);
         this.shooter(gamePad_1);
-        sensorColor.cheese();
+        sensorColor.getColor();
         //visionCam.processCamera();
         //visionCam.getGoalDistance();
     }
@@ -74,11 +74,12 @@ public class TeleopControl
         // Determine if the shooter should be firing and alert the shooterControl
         if(_gamePad.getButton(ButtonMap.A))
         {
-            this.isIntaking = !isIntaking;
+            this.isIntakingDirection = (isIntakingDirection != 1) ? 1 : 0;
+            this.isShooting = !isShooting;
         }
         if(_gamePad.getButton(ButtonMap.B))
         {
-            this.isShooting = !isShooting;
+            this.isIntakingDirection = (isIntakingDirection != 1) ? -1 : 0;
         }
         if(_gamePad.getButton(ButtonMap.X))
         {
@@ -94,7 +95,7 @@ public class TeleopControl
         }
         this.shooterControl.extendClimber(isExtendingDirection * extensionSpeed);
         this.shooterControl.shoot(isShooting ? shootingSpeed : 0);
-        this.shooterControl.intake(isIntaking ? 30 : 0);
+        this.shooterControl.intake(isIntakingDirection * 30);
     }
 
     public void driveTrain(GamePad _gamePad) //Controls the drive train--triggers only ONE execution line

@@ -12,12 +12,12 @@ public enum PortMap
     CAMERA_SHOOTER(1181), //first camera at 1181, second at 1182 etc.
     GAMEPAD_1(2), //shooter gamepad
     FRONTRIGHT(3), //new board port 3
-    REARRIGHT(10), //new board port 0
+    REARRIGHT(0), //new board port 0
     TURNTABLE(2),
     SHOOTER(4),
     FRONTLEFT(1), //new board port 1
     REARLEFT(2), //new board port 2
-    CLIMBER(0),
+    CLIMBER(10),
     SHOOTER_INTAKE(4),
     SHOOTER_LEFT(5),
     SHOOTER_BACK(8),
