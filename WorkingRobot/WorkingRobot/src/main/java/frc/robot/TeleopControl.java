@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actors.DriveControl;
 import frc.robot.actors.ShooterControl;
 import frc.robot.data.ButtonMap;
@@ -110,5 +111,12 @@ public class TeleopControl
         }
 
         this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, drivingSpeed);
+    }
+
+    public void updateDashboard()
+    {
+        SmartDashboard.putString("Shooting", "isShooting");
+        SmartDashboard.putNumber("Intake direction", isIntakingDirection);
+        SmartDashboard.putNumber("Extending direction", isExtendingDirection);
     }
 }
