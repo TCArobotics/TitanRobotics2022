@@ -115,7 +115,7 @@ public class TeleopControl
 
     public void updateDashboard()
     {
-        SmartDashboard.putString("Shooting", "isShooting");
+        SmartDashboard.putBoolean("Shooting", isShooting);
         SmartDashboard.putNumber("Intake direction", isIntakingDirection);
         SmartDashboard.putNumber("Extending direction", isExtendingDirection);
     }
