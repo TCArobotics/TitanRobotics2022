@@ -40,7 +40,7 @@ public class GamePad
         }
         return false;
     }
-
+    
     public double getStick(ButtonMap stickAxis) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
         switch(stickAxis)

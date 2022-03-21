@@ -8,8 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+
+import java.util.Map;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,10 +25,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  private static final String kMoveBackAuto = "Move back";
+  private static final String kShootAuto = "Move back and shoot";
+  private static final String kDeliverAuto = "Deliver ball";
+  private static final String kWait0 = "0s";
+  private static final String kWait5 = "5s";
+  private static final String kWait10 = "10s";
   private String m_autoSelected;
+  private String m_autoWait;
+  private double startTime;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser2 = new SendableChooser<>();
 
   private TeleopControl teleopControl;
   private AutonomousControl autonomousControl;
@@ -33,9 +46,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
+    m_chooser.setDefaultOption("Move Back", kMoveBackAuto);
+    m_chooser.addOption("Move back and shoot", kShootAuto);
+    m_chooser.addOption("Deliver ball", kDeliverAuto);
+    m_chooser2.setDefaultOption("0s", kWait0);
+    m_chooser2.addOption("5s", kWait5);
+    m_chooser2.addOption("10s", kWait10);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putData("Auto wait time", m_chooser2);
 
     teleopControl = new TeleopControl();
     autonomousControl = new AutonomousControl();
@@ -67,8 +85,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
+    m_autoWait = m_chooser2.getSelected();
+    startTime = Timer.getFPGATimestamp();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
   }
 
   /**
@@ -76,14 +95,38 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    autonomousControl.execute();
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
+    System.out.println(Timer.getFPGATimestamp());
+    int waitTime;
+    switch(m_autoWait)
+    {
+      case kWait0:
+        waitTime = 0;
         break;
-      case kDefaultAuto:
+      case kWait5:
+        waitTime = 5;
+        break;
+      case kWait10:
+        waitTime = 10;
+        break;
       default:
-        // Put default auto code here
+        waitTime = 0;
+        break;
+    }
+
+    switch (m_autoSelected) 
+    {
+      case kMoveBackAuto:
+        // Put custom auto code here
+        autonomousControl.moveBackChoice(startTime, waitTime);
+        break;
+      case kDeliverAuto:
+        autonomousControl.deliverBallChoice(startTime, waitTime);
+        break;
+      case kShootAuto:
+        autonomousControl.shootChoice(startTime, waitTime);
+        break;
+      default:
+        autonomousControl.moveBackChoice(startTime, waitTime);
         break;
     }
   }
@@ -94,7 +137,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleopControl.execute();
-    teleopControl.updateDashboard();
   }
 
   /**

@@ -29,14 +29,15 @@ public class TeleopControl
     private final GamePad gamePad_1;
     private final Gyro gyro;
     private final Camera visionCam;
-    //private final UsbCamera driverCam;
-    //private final VideoSink driverCamServer;
+    private final UsbCamera driverCam;
+    private final VideoSink driverCamServer;
     private final SensorColor sensorColor;
-    private int isIntakingDirection;
+    private double isIntakingDirection;
     private boolean isShooting;
-    private int isExtendingDirection;
+    private double isExtendingDirection;
     private double drivingSpeed;
     private double shootingSpeed;
+    private double intakingSpeed;
     private double extensionSpeed;
 
     public TeleopControl()
@@ -45,9 +46,9 @@ public class TeleopControl
         driveControl = new DriveControl();
         shooterControl = new ShooterControl();
         sensorColor = new SensorColor();
-        //driverCam = CameraServer.startAutomaticCapture(1);
-        //driverCamServer = CameraServer.getServer();
-        //driverCamServer.setSource(driverCam);
+        driverCam = CameraServer.startAutomaticCapture();
+        driverCamServer = CameraServer.getServer();
+        driverCamServer.setSource(driverCam);
         visionCam = new Camera("VisionCamera", "10.83.34.61", 400, 300);
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
@@ -56,7 +57,8 @@ public class TeleopControl
         isShooting = false;
         isExtendingDirection = 0;
         drivingSpeed = .5;
-        shootingSpeed = 1;
+        shootingSpeed = 3;
+        intakingSpeed = 1;
         extensionSpeed = .5;
     }
 
@@ -66,6 +68,7 @@ public class TeleopControl
         this.driveTrain(gamePad_0);
         this.shooter(gamePad_1);
         sensorColor.getColor();
+        this.updateDashboard();
         //visionCam.processCamera();
         //visionCam.getGoalDistance();
     }
@@ -76,11 +79,15 @@ public class TeleopControl
         if(_gamePad.getButton(ButtonMap.A))
         {
             this.isIntakingDirection = (isIntakingDirection != 1) ? 1 : 0;
-            this.isShooting = !isShooting;
         }
         if(_gamePad.getButton(ButtonMap.B))
         {
-            this.isIntakingDirection = (isIntakingDirection != 1) ? -1 : 0;
+            this.isShooting = !isShooting;
+        }
+        if(_gamePad.getButton(ButtonMap.RB))
+        {
+            this.isIntakingDirection = (isIntakingDirection != -.5) ? -.5 : 0;
+            this.isShooting = false;
         }
         if(_gamePad.getButton(ButtonMap.X))
         {
@@ -96,7 +103,7 @@ public class TeleopControl
         }
         this.shooterControl.extendClimber(isExtendingDirection * extensionSpeed);
         this.shooterControl.shoot(isShooting ? shootingSpeed : 0);
-        this.shooterControl.intake(isIntakingDirection * 30);
+        this.shooterControl.intake(isIntakingDirection * intakingSpeed);
     }
 
     public void driveTrain(GamePad _gamePad) //Controls the drive train--triggers only ONE execution line
@@ -115,7 +122,7 @@ public class TeleopControl
 
     public void updateDashboard()
     {
-        SmartDashboard.putString("Shooting", "isShooting");
+        SmartDashboard.putBoolean("Shooting", isShooting);
         SmartDashboard.putNumber("Intake direction", isIntakingDirection);
         SmartDashboard.putNumber("Extending direction", isExtendingDirection);
     }

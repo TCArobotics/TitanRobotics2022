@@ -6,7 +6,7 @@ package frc.robot.data;
 
 public enum ButtonMap
 {
-    A(1), //Toggle intake
+    A(1), //Toggle intake, double tap to reverse intake
     B(2), //Activate shooter
     X(3), //Extend climber
     Y(4), //Retract climber

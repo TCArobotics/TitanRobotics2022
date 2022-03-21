@@ -14,11 +14,11 @@ public enum PortMap
     FRONTRIGHT(3), //new board port 3
     REARRIGHT(0), //new board port 0
     TURNTABLE(2),
-    SHOOTER(4),
     FRONTLEFT(1), //new board port 1
     REARLEFT(2), //new board port 2
     CLIMBER(10),
-    SHOOTER_INTAKE(4),
+    SHOOTER_INTAKE_LEFT(4),
+    SHOOTER_INTAKE_RIGHT(9),
     SHOOTER_LEFT(5),
     SHOOTER_BACK(8),
     SHOOTER_RIGHT(6),
