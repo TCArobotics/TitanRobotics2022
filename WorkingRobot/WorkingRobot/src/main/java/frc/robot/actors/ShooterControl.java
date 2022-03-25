@@ -39,15 +39,15 @@ public class ShooterControl
         motor_climberMotor.set(_speed);
     }
 
-    public static void shoot(double _speed)
+    public static void shoot(double _leftSpeed, double _midSpeed, double _rightSpeed)
     {
-            motor_shooterMotorBack.set(5*_speed);
-            motor_shooterMotorLeft.set(5*_speed);
-            motor_shooterMotorFront.set(5*_speed);
+            motor_shooterMotorBack.set(5*_midSpeed);
+            motor_shooterMotorLeft.set(5*_leftSpeed);
+            motor_shooterMotorFront.set(5*_rightSpeed);
     }
     public static void stop()
     {
-        shoot(0);
+        shoot(0, 0, 0);
         extendClimber(0);
         intake(0);
     }

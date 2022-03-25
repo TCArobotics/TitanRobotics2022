@@ -8,13 +8,8 @@ import frc.robot.actors.DriveControl;
 import frc.robot.actors.ShooterControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
-import frc.robot.data.Gyro;
 import frc.robot.data.PortMap;
-import frc.robot.data.Sensor;
-import frc.robot.data.Range;
-import frc.robot.data.GripPipeline;
-import frc.robot.data.Camera;
-import frc.robot.data.SensorColor;
+import edu.wpi.first.cscore.MjpegServer;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -22,16 +17,13 @@ import frc.robot.data.SensorColor;
 
 public class TeleopControl
 {
-    private final Range range;
     private final DriveControl driveControl;
     private final ShooterControl shooterControl;
     private final GamePad gamePad_0;
     private final GamePad gamePad_1;
-    private final Gyro gyro;
-    private final Camera visionCam;
     private final UsbCamera driverCam;
-    private final VideoSink driverCamServer;
-    private final SensorColor sensorColor;
+    private final UsbCamera shooterCam;
+    private final VideoSink camServer;
     private double isIntakingDirection;
     private boolean isShooting;
     private double isExtendingDirection;
@@ -42,23 +34,20 @@ public class TeleopControl
 
     public TeleopControl()
     {
-        range = new Range();
         driveControl = new DriveControl();
         shooterControl = new ShooterControl();
-        sensorColor = new SensorColor();
-        driverCam = CameraServer.startAutomaticCapture();
-        driverCamServer = CameraServer.getServer();
-        driverCamServer.setSource(driverCam);
-        visionCam = new Camera("VisionCamera", "10.83.34.61", 400, 300);
+        driverCam = CameraServer.startAutomaticCapture(0);
+        shooterCam = CameraServer.startAutomaticCapture(1);
+        camServer = CameraServer.getServer();
+        camServer.setSource(driverCam);
         gamePad_0 = new GamePad(PortMap.GAMEPAD_0.portNumber);
         gamePad_1 = new GamePad(PortMap.GAMEPAD_1.portNumber);
-        gyro = new Gyro();
         isIntakingDirection = 0;
         isShooting = false;
         isExtendingDirection = 0;
-        drivingSpeed = .5;
-        shootingSpeed = 3;
-        intakingSpeed = 1;
+        drivingSpeed = 1;
+        shootingSpeed = 1;
+        intakingSpeed = 0.6;
         extensionSpeed = .5;
     }
 
@@ -67,7 +56,6 @@ public class TeleopControl
         //GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain(gamePad_0);
         this.shooter(gamePad_1);
-        sensorColor.getColor();
         this.updateDashboard();
         //visionCam.processCamera();
         //visionCam.getGoalDistance();
@@ -86,7 +74,7 @@ public class TeleopControl
         }
         if(_gamePad.getButton(ButtonMap.RB))
         {
-            this.isIntakingDirection = (isIntakingDirection != -.5) ? -.5 : 0;
+            this.isIntakingDirection = (isIntakingDirection != -1) ? -1 : 0;
             this.isShooting = false;
         }
         if(_gamePad.getButton(ButtonMap.X))
@@ -99,10 +87,13 @@ public class TeleopControl
         }
         if(_gamePad.getButton(ButtonMap.LB))
         {
-            shootingSpeed = (shootingSpeed == 1) ? 0.5 : 1;
+            shootingSpeed = (shootingSpeed == 1) ? .5 : 1;
+            intakingSpeed = (intakingSpeed == .6) ? .45 : .6;
         }
+        double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
+
         this.shooterControl.extendClimber(isExtendingDirection * extensionSpeed);
-        this.shooterControl.shoot(isShooting ? shootingSpeed : 0);
+        this.shooterControl.shoot(isShooting ? shootingSpeed + .2 * leftStickX : 0, isShooting ? shootingSpeed : 0, isShooting ? shootingSpeed - .2 * leftStickX : 0);
         this.shooterControl.intake(isIntakingDirection * intakingSpeed);
     }
 
@@ -116,7 +107,6 @@ public class TeleopControl
         {
             drivingSpeed = (drivingSpeed == 1) ? 0.5 : 1;
         }
-
         this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, drivingSpeed);
     }
 
@@ -125,5 +115,7 @@ public class TeleopControl
         SmartDashboard.putBoolean("Shooting", isShooting);
         SmartDashboard.putNumber("Intake direction", isIntakingDirection);
         SmartDashboard.putNumber("Extending direction", isExtendingDirection);
+        SmartDashboard.putNumber("Shooting Speed", shootingSpeed);
+        SmartDashboard.putNumber("Driving Speed", drivingSpeed);
     }
 }

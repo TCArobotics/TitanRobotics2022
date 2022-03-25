@@ -6,12 +6,12 @@ package frc.robot.data;
 
 public enum ButtonMap
 {
-    A(1), //Toggle intake, double tap to reverse intake
+    A(1), //Toggle intake
     B(2), //Activate shooter
     X(3), //Extend climber
     Y(4), //Retract climber
     LB(5), //Change speed for shooter and driver controllers respectively
-    RB(6),
+    RB(6), //Reverse intake, toggle camera views
     BACK(7),
     START(8),
     LSTICK(9),
