@@ -1,13 +1,13 @@
-package frc.robot.data;
+// package frc.robot.data;
 
-public class Encoder 
-{
-    public Encoder()
-    {
+// public class Encoder 
+// {
+//     public Encoder()
+//     {
 
-    }
-    public double Rotation()
-    {
-        return 4;
-    }
-}
+//     }
+//     public double Rotation()
+//     {
+//         return 4;
+//     }
+// }

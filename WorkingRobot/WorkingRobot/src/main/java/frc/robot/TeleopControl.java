@@ -5,7 +5,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actors.DriveControl;
-import frc.robot.actors.ShooterControl;
+// import frc.robot.actors.ShooterControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
 import frc.robot.data.PortMap;
@@ -18,7 +18,7 @@ import edu.wpi.first.cscore.MjpegServer;
 public class TeleopControl
 {
     private final DriveControl driveControl;
-    private final ShooterControl shooterControl;
+    // private final ShooterControl shooterControl;
     private final GamePad gamePad_0;
     private final GamePad gamePad_1;
     private final UsbCamera driverCam;
@@ -35,7 +35,7 @@ public class TeleopControl
     public TeleopControl()
     {
         driveControl = new DriveControl();
-        shooterControl = new ShooterControl();
+        // shooterControl = new ShooterControl();
         driverCam = CameraServer.startAutomaticCapture(0);
         shooterCam = CameraServer.startAutomaticCapture(1);
         camServer = CameraServer.getServer();
@@ -92,9 +92,9 @@ public class TeleopControl
         }
         double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
 
-        this.shooterControl.extendClimber(isExtendingDirection * extensionSpeed);
-        this.shooterControl.shoot(isShooting ? shootingSpeed + .2 * leftStickX : 0, isShooting ? shootingSpeed : 0, isShooting ? shootingSpeed - .2 * leftStickX : 0);
-        this.shooterControl.intake(isIntakingDirection * intakingSpeed);
+        // this.shooterControl.extendClimber(isExtendingDirection * extensionSpeed);
+        // this.shooterControl.shoot(isShooting ? shootingSpeed + .2 * leftStickX : 0, isShooting ? shootingSpeed : 0, isShooting ? shootingSpeed - .2 * leftStickX : 0);
+        // this.shooterControl.intake(isIntakingDirection * intakingSpeed);
     }
 
     public void driveTrain(GamePad _gamePad) //Controls the drive train--triggers only ONE execution line
