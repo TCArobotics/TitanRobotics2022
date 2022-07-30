@@ -3,6 +3,8 @@ package frc.robot.data;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
+//this class initializes and gets values from the gyro
+
 public class Gyro {
     private final AHRS ahrs;
 

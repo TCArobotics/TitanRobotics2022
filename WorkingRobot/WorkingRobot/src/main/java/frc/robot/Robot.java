@@ -20,7 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot 
+{
   private static final String kMoveBackAuto = "Move back";
   private static final String kShootAuto = "Move back and shoot";
   private static final String kDeliverAuto = "Deliver ball";
@@ -41,9 +42,10 @@ public class Robot extends TimedRobot {
    * used for any initialization code.
    */
   @Override
-  public void robotInit() {
+  public void robotInit() 
+  {
     m_chooser.setDefaultOption("Move Back", kMoveBackAuto);
-    m_chooser.addOption("Move back and shoot", kShootAuto);
+    m_chooser.addOption("Shoot and move back", kShootAuto);
     m_chooser.addOption("Deliver ball", kDeliverAuto);
     m_chooser2.setDefaultOption("0s", kWait0);
     m_chooser2.addOption("5s", kWait5);
@@ -64,7 +66,9 @@ public class Robot extends TimedRobot {
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
+  public void robotPeriodic() 
+  {
+
   }
 
   /**
@@ -79,18 +83,19 @@ public class Robot extends TimedRobot {
    * SendableChooser make sure to add them to the chooser code above as well.
    */
   @Override
-  public void autonomousInit() {
+  public void autonomousInit() 
+  {
     m_autoSelected = m_chooser.getSelected();
     m_autoWait = m_chooser2.getSelected();
     startTime = Timer.getFPGATimestamp();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
   }
 
   /**
    * This function is called periodically during autonomous.
    */
   @Override
-  public void autonomousPeriodic() {
+  public void autonomousPeriodic()
+  {
     System.out.println(Timer.getFPGATimestamp());
     int waitTime;
     switch(m_autoWait)
@@ -131,7 +136,8 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic() 
+  {
     teleopControl.execute();
   }
 
@@ -139,6 +145,8 @@ public class Robot extends TimedRobot {
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+  public void testPeriodic() 
+  {
+
   }
 }

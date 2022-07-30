@@ -2,20 +2,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.actors.DriveControl;
 import frc.robot.actors.ShooterControl;
-import frc.robot.data.GripPipeline;
 
 //This class controls all robot functions during the Autonomous period
 
 public class AutonomousControl
 {
-    private final GripPipeline gripPipeline;
     public AutonomousControl()
     {
-        gripPipeline = new GripPipeline();
-        gripPipeline.filterContoursOutput();
+        
     }
+    //3 choices: move back, shoot and move back, and deliver ball
 
-    public void moveBackChoice(double _startTime, double _wait) //Called Periodically during Autonomous
+    //move back for 3 seconds
+    public void moveBackChoice(double _startTime, double _wait)
     {
         
         if(Timer.getFPGATimestamp() - _startTime > _wait && Timer.getFPGATimestamp() - _startTime < 3 + _wait)
@@ -27,6 +26,8 @@ public class AutonomousControl
             DriveControl.stop();
         }
     }
+
+    //shoot for 3 seconds, using 1 second to rev up the motor. Move back for 3 seconds.
     public void shootChoice(double _startTime, double _wait)
     {
         if(Timer.getFPGATimestamp() - _startTime > _wait && Timer.getFPGATimestamp() - _startTime < 1 + _wait)
@@ -53,6 +54,7 @@ public class AutonomousControl
         }
     }
 
+    //not used
     public void deliverBallChoice(double _startTime, double _wait)
     {
 

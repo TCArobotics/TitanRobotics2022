@@ -28,23 +28,28 @@ public class ShooterControl
         motor_shooterMotorIntakeLeft.setInverted(true);
     }
 
+    //turn on intake motors, must be at the same speed to avoid damage
     public static void intake(double _speed)
     {
         motor_shooterMotorIntakeLeft.set(_speed);
         motor_shooterMotorIntakeRight.set(_speed);
     }
     
+    //for extending and retracting climber motor
     public static void extendClimber(double _speed)
     {
         motor_climberMotor.set(_speed);
     }
 
+    //turn on shooter motors each with varying power. Default coefficient is 5.
     public static void shoot(double _leftSpeed, double _midSpeed, double _rightSpeed)
     {
             motor_shooterMotorBack.set(5*_midSpeed);
             motor_shooterMotorLeft.set(5*_leftSpeed);
             motor_shooterMotorFront.set(5*_rightSpeed);
     }
+
+    //stop all systems in ShooterControl
     public static void stop()
     {
         shoot(0, 0, 0);

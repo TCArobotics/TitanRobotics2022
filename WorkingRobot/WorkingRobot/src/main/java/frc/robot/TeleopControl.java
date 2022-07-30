@@ -9,7 +9,6 @@ import frc.robot.actors.ShooterControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
 import frc.robot.data.PortMap;
-import edu.wpi.first.cscore.MjpegServer;
 
 //This class controls all robot functions during Teleop
 //It's major role his determining what abstract actions the robot should be taking
@@ -47,23 +46,20 @@ public class TeleopControl
         isExtendingDirection = 0;
         drivingSpeed = 1;
         shootingSpeed = 1;
-        intakingSpeed = 0.6;
-        extensionSpeed = .5;
+        intakingSpeed = 0.5;
+        extensionSpeed = 1;
     }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
-        //GripPipeline.process(); //Use CameraServer to create Matrix input
         this.driveTrain(gamePad_0);
         this.shooter(gamePad_1);
         this.updateDashboard();
-        //visionCam.processCamera();
-        //visionCam.getGoalDistance();
     }
 
-    public void shooter(GamePad _gamePad) //Controls the shooter--Triggers only ONE execution line
+    //controls shooter, intake, and climber
+    public void shooter(GamePad _gamePad)
     {
-        // Determine if the shooter should be firing and alert the shooterControl
         if(_gamePad.getButton(ButtonMap.A))
         {
             this.isIntakingDirection = (isIntakingDirection != 1) ? 1 : 0;
@@ -83,33 +79,37 @@ public class TeleopControl
         }
         if(_gamePad.getButton(ButtonMap.Y))
         {
-            this.isExtendingDirection = (isExtendingDirection != -1) ? -1 : 0;
+            this.isExtendingDirection = (isExtendingDirection != -3) ? -3 : 0;
         }
         if(_gamePad.getButton(ButtonMap.LB))
         {
-            shootingSpeed = (shootingSpeed == 1) ? .5 : 1;
-            intakingSpeed = (intakingSpeed == .6) ? .45 : .6;
+            //shootingSpeed = (shootingSpeed == 1) ? .5 : 1;
+            intakingSpeed = (intakingSpeed == .7) ? .5 : .7;
         }
         double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
+        double rightStickY = _gamePad.getStick(ButtonMap.STICK_RIGHTY);
 
         this.shooterControl.extendClimber(isExtendingDirection * extensionSpeed);
-        this.shooterControl.shoot(isShooting ? shootingSpeed + .2 * leftStickX : 0, isShooting ? shootingSpeed : 0, isShooting ? shootingSpeed - .2 * leftStickX : 0);
+        this.shooterControl.shoot(isShooting ? shootingSpeed: 0, isShooting ? shootingSpeed +  1.4 * leftStickX : 0, isShooting ? shootingSpeed - 1.4 * leftStickX : 0);
         this.shooterControl.intake(isIntakingDirection * intakingSpeed);
     }
 
-    public void driveTrain(GamePad _gamePad) //Controls the drive train--triggers only ONE execution line
+    //Controls the drive train
+    public void driveTrain(GamePad _gamePad)
     {
         double leftStickY = _gamePad.getStick(ButtonMap.STICK_LEFTY);
         double leftStickX = _gamePad.getStick(ButtonMap.STICK_LEFTX);
+        double rightStickY = _gamePad.getStick(ButtonMap.STICK_RIGHTY);
         double rightStickX = _gamePad.getStick(ButtonMap.STICK_RIGHTX);
 
         if(_gamePad.getButton(ButtonMap.LB))
         {
             drivingSpeed = (drivingSpeed == 1) ? 0.5 : 1;
         }
-        this.driveControl.mecanumDrive(leftStickY, leftStickX, rightStickX, drivingSpeed);
+        this.driveControl.tankDrive(leftStickY, rightStickY, drivingSpeed);
     }
 
+    //puts important values on the dashboard
     public void updateDashboard()
     {
         SmartDashboard.putBoolean("Shooting", isShooting);
